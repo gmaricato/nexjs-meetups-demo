@@ -14,7 +14,7 @@ export default function HomePage({ meetups }) {
           content="A meetups manager website"
         />
       </Head>
-      <MeetupList meetups={meetups} />;
+      <MeetupList meetups={meetups} />
     </Fragment>
   ) 
 }
@@ -26,7 +26,7 @@ export async function getStaticProps() {
     props: {
       meetups: meetups,
     },
-    revalidate: 10, // will be regenarated (at the server) every 10s if there is requests being done at the page, 
+    revalidate: 1, // will be regenarated (at the server) every 1s if there is requests being done at the page, 
     // otherwise, if we dont set this prop, the page will only be updated if you build it again, cause the "getStaticProps"
     // method only runs during the build proccess (SSG - static site generation)
     // generally better for pages where the content dont update to often and also if we dont need authentication 
