@@ -5,18 +5,18 @@ import { MongoClient, ObjectId } from "mongodb";
 import MeetupDetails from "../../components/meetups/MeetupDetails";
 import handler from "../api/meetups";
 
-export default function MeetupDetailsPage({ meetup }) {
+export default function MeetupDetailsPage({ meetup = {} }) {
   return (
     <Fragment>
       <Head>
-        <title>{meetup.title}</title>
-        <meta name="description" content={meetup.description} />
+        <title>{meetup?.title}</title>
+        <meta name="description" content={meetup?.description} />
       </Head>
       <MeetupDetails
-        image={meetup.image}
-        title={meetup.title}
-        address={meetup.address}
-        description={meetup.description}
+        image={meetup?.image}
+        title={meetup?.title}
+        address={meetup?.address}
+        description={meetup?.description}
       />
     </Fragment>
   )
@@ -26,7 +26,7 @@ export async function getStaticPaths() {
   const meetups = await handler();
 
   return {
-    fallback: true, // false means the all the possibles ids/paths are included at the paths and any path different than then would result in a 404 page
+    fallback: "blocking", // false means the all the possibles ids/paths are included at the paths and any path different than then would result in a 404 page
     // setting it to true means that for the ids/paths the are not included at the paths, it would try to fetch dinamically the server before resulting a 404 page
     paths: meetups.map((meetup) => ({
       params: {
