@@ -1,0 +1,10 @@
+{
+  "search.useIgnoreFiles": false,
+  "eslint.onIgnoredFiles": "warn",
+  "search.useGlobalIgnoreFiles": false,
+  "search.useParentIgnoreFiles": false,
+  "explorer.excludeGitIgnore": false,
+  "files.exclude": {
+    "**/.next": true
+  },
+}
