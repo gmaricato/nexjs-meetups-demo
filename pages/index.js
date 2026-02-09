@@ -32,17 +32,3 @@ export async function getStaticProps() {
     // generally better for pages where the content dont update to often and also if we dont need authentication 
   };
 }
-
-// it will not be runned during build, but at real time at the server, dinamically on every request 
-// (have to wait the page to be genetated on every request)
-// (SSR - server side rendering)
-// export async function getServerSideProps(context) {
-//   const res = context.res;
-//   const req = context.req;
-
-//   return {
-//     props: {
-//       meetups: DUMMY_MEETUPS,
-//     },
-//   }
-// }

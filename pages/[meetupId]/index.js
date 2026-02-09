@@ -1,11 +1,30 @@
 import { Fragment } from "react";
 import Head from "next/head";
 import { MongoClient, ObjectId } from "mongodb";
+import { useRouter } from "next/router";
 
 import MeetupDetails from "../../components/meetups/MeetupDetails";
 import handler from "../api/meetups";
 
 export default function MeetupDetailsPage({ meetup = {} }) {
+  const router = useRouter();
+
+  async function deleteMeetupHandler() {
+    try {
+      await fetch("/api/delete-meetup", {
+        method: "DELETE",
+        body: JSON.stringify({ id: meetup.id }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      router.push("/");
+    } catch (error) {
+      console.log("An error occurred");
+      console.log(error);
+    }
+  }
+
   return (
     <Fragment>
       <Head>
@@ -17,17 +36,17 @@ export default function MeetupDetailsPage({ meetup = {} }) {
         title={meetup?.title}
         address={meetup?.address}
         description={meetup?.description}
+        onDeleteMeetup={deleteMeetupHandler}
       />
     </Fragment>
-  )
+  );
 }
 
 export async function getStaticPaths() {
   const meetups = await handler();
 
   return {
-    fallback: "blocking", // false means the all the possibles ids/paths are included at the paths and any path different than then would result in a 404 page
-    // setting it to true means that for the ids/paths the are not included at the paths, it would try to fetch dinamically the server before resulting a 404 page
+    fallback: "blocking",
     paths: meetups.map((meetup) => ({
       params: {
         meetupId: meetup.id,
@@ -38,15 +57,15 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context) {
   const meetupId = context.params.meetupId;
-  const client = await MongoClient.connect(
-    "mongodb+srv://guimaricato:Z3zDfDDNV2UXxeV2@cluster0.ikv5cvb.mongodb.net/meetups?retryWrites=true&w=majority&appName=Cluster0"
-  );
+  const client = await MongoClient.connect(process.env.MONGO_DB_URI);
 
   const db = client.db();
   const meetupCollection = db.collection("meetups");
   const meetup = await meetupCollection.findOne({
     _id: new ObjectId(meetupId),
   });
+
+  meetup.id = meetupId;
   delete meetup._id;
   client.close();
 

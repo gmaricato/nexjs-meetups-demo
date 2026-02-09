@@ -1,2 +1,4 @@
-npm install
-npm run dev
+- create a database using mongo atlas: https://www.mongodb.com/docs/atlas/atlas-ui/databases/
+- set up your env vars with the db URI
+- npm install
+- npm run dev

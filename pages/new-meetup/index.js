@@ -7,7 +7,7 @@ import NewMeetupForm from "../../components/meetups/NewMeetupForm";
 export default function NewMeetupPage() {
   const router = useRouter();
   async function addMeetupHandler(newMeetupData) {
-    const response = await fetch("/api/new-meetup", {
+    await fetch("/api/new-meetup", {
       method: "POST",
       body: JSON.stringify(newMeetupData),
       headers: {
@@ -23,7 +23,7 @@ export default function NewMeetupPage() {
         <title>Add a New Meetup</title>
         <meta
           name="description"
-          content="Add a new amazing meetup"
+          content="Add a new meetup"
         />
       </Head>
       <NewMeetupForm onAddMeetup={addMeetupHandler} />

@@ -4,7 +4,7 @@ import classes from "./MeetupItem.module.css";
 
 function MeetupItem(props) {
   const router = useRouter();
-
+  
   function showMeetupDetails() {
     router.push("/" + props.id);
   }
